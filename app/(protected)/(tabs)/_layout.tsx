@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import React from "react";
 import { Tabs } from "expo-router";
-import colors from "../../data/styling/colors";
+import colors from "../../../data/styling/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 const TabLayout = () => {
   return (
@@ -55,3 +55,4 @@ const TabLayout = () => {
 export default TabLayout;
 
 const styles = StyleSheet.create({});
+

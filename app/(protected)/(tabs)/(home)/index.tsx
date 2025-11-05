@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import colors from "../../../data/styling/colors";
-import Note from "../../../components/Note";
+import colors from "../../../../data/styling/colors";
+import Note from "../../../../components/Note";
 
 const Home = () => {
   const note = {
@@ -42,3 +42,4 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({});
+

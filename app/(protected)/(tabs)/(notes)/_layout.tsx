@@ -9,3 +9,4 @@ const NotesLayout = () => {
 export default NotesLayout;
 
 const styles = StyleSheet.create({});
+

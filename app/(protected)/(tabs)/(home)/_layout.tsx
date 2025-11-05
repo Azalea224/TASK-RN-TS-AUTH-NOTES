@@ -1,4 +1,4 @@
-import colors from "../../../data/styling/colors";
+import colors from "../../../../data/styling/colors";
 import { Stack } from "expo-router";
 import React from "react";
 
@@ -22,3 +22,4 @@ const HomeLayout = () => {
 };
 
 export default HomeLayout;
+

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
-import colors from "../../../data/styling/colors";
+import colors from "../../../../data/styling/colors";
 
 const NoteDetails = () => {
   return (
@@ -67,3 +67,4 @@ const NoteDetails = () => {
 export default NoteDetails;
 
 const styles = StyleSheet.create({});
+
