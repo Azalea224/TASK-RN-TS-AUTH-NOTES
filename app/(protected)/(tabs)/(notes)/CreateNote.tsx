@@ -9,11 +9,15 @@ import {
 import React, { useState } from "react";
 import colors from "../../../../data/styling/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { NoteType } from "@/types/NoteType";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createNote } from "@/api/notes";
 
 const AddNote = () => {
   const [title, setTitle] = useState("");
   const [topics, setTopics] = useState([""]);
   const [noteBody, setNoteBody] = useState("");
+  const queryClient = useQueryClient();
 
   const addTopic = () => {
     setTopics([...topics, ""]);
@@ -25,6 +29,35 @@ const AddNote = () => {
     setTopics(newTopics);
   };
 
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: (noteInfo: NoteType) => createNote(noteInfo),
+    onSuccess: () => {
+      // Reset form after successful creation
+      setTitle("");
+      setTopics([""]);
+      setNoteBody("");
+      // Invalidate and refetch notes query to show the new note
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
+    },
+    onError: (error) => {
+      console.error("Error creating note:", error);
+    },
+  });
+
+  const handleCreateNote = () => {
+    // Filter out empty topics
+    const filteredTopics = topics.filter((topic) => topic.trim() !== "");
+
+    if (!title.trim()) {
+      return;
+    }
+
+    mutate({
+      title: title.trim(),
+      topic: filteredTopics,
+      body: noteBody.trim(),
+    } as NoteType);
+  };
   return (
     <SafeAreaView
       style={{
@@ -63,6 +96,21 @@ const AddNote = () => {
           <Text style={{ color: colors.white, fontSize: 16, marginBottom: 20 }}>
             Create a new note
           </Text>
+
+          {error && (
+            <Text
+              style={{
+                color: "red",
+                fontSize: 14,
+                marginBottom: 10,
+                textAlign: "center",
+              }}
+            >
+              {(error as any).response?.data?.message ||
+                error.message ||
+                "Failed to create note. Please try again."}
+            </Text>
+          )}
 
           <TextInput
             style={{
@@ -172,7 +220,10 @@ const AddNote = () => {
               elevation: 7,
               borderWidth: 1,
               borderColor: "rgba(0,0,0,0.1)",
+              opacity: isPending ? 0.6 : 1,
             }}
+            onPress={handleCreateNote}
+            disabled={isPending || !title.trim()}
           >
             <Text
               style={{
@@ -181,7 +232,7 @@ const AddNote = () => {
                 fontSize: 16,
               }}
             >
-              Create Note
+              {isPending ? "Creating..." : "Create Note"}
             </Text>
           </TouchableOpacity>
         </View>
@@ -191,4 +242,3 @@ const AddNote = () => {
 };
 
 export default AddNote;
-

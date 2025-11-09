@@ -85,7 +85,7 @@ const Note = ({ note }: { note: NoteType }) => {
             alignItems: "center",
             marginBottom: 5,
           }}
-          onPress={() => router.push(`/${note._id}`)}
+          onPress={() => router.push(`/(protected)/(tabs)/(home)/${note._id}`)}
         >
           <Text
             style={{
